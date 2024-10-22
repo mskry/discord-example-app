@@ -12,6 +12,8 @@ const TEST_COMMAND: APIApplicationCommand = {
   description: "Basic command",
   type: ApplicationCommandType.ChatInput,
   dm_permission: true,
+  default_member_permissions: "0",
+  nsfw: false,
 };
 
 const ECHO_COMMAND: APIApplicationCommand = {
@@ -19,6 +21,8 @@ const ECHO_COMMAND: APIApplicationCommand = {
   description: "Repeats your message",
   type: ApplicationCommandType.ChatInput,
   dm_permission: true,
+  default_member_permissions: "0",
+  nsfw: false,
   options: [
     {
       type: ApplicationCommandOptionType.String,
