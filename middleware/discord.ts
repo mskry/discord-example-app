@@ -27,5 +27,6 @@ export const verifyDiscordRequest = (clientPublicKey: string) =>
 
     // Parse the JSON body and set it in the context
     c.set("parsedBody", JSON.parse(rawBody) as APIInteraction);
-    return next();
+    const response = await next();
+    return response;
   });

@@ -33,6 +33,14 @@ app.post("/interactions", async (c: Context) => {
       },
     });
   }
+
+  // Default response for unhandled interaction types
+  return c.json({
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    data: {
+      content: "Unhandled interaction type",
+    },
+  });
 });
 
 Deno.serve(app.fetch);
