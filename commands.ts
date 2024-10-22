@@ -11,12 +11,14 @@ const TEST_COMMAND: APIApplicationCommand = {
   name: "test",
   description: "Basic command",
   type: ApplicationCommandType.ChatInput,
+  dm_permission: true,
 };
 
 const ECHO_COMMAND: APIApplicationCommand = {
   name: "echo",
   description: "Repeats your message",
   type: ApplicationCommandType.ChatInput,
+  dm_permission: true,
   options: [
     {
       type: ApplicationCommandOptionType.String,
