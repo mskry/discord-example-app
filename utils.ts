@@ -1,8 +1,8 @@
 import { APIApplicationCommand } from "https://deno.land/x/discord_api_types@0.37.101/v10.ts";
 import "@std/dotenv/load";
 
-interface DiscordRequestOptions extends RequestInit {
-  body?: unknown;
+interface DiscordRequestOptions extends Omit<RequestInit, 'body'> {
+  body?: BodyInit | null | unknown;
 }
 
 export async function DiscordRequest(
