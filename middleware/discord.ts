@@ -24,6 +24,9 @@ export const verifyDiscordRequest = (clientPublicKey: string) =>
       return c.text("Bad request signature", 401);
     }
 
-    c.set("parsedBody", JSON.parse(rawBody));
+    // Parse the JSON body using Hono's built-in method
+    const parsedBody = await c.req.json();
+    c.set("parsedBody", parsedBody);
+
     await next();
   });
