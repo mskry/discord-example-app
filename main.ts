@@ -1,13 +1,10 @@
-import { Hono } from "jsr:@hono/hono@4.6.5";
+import { type Context, Hono } from "jsr:@hono/hono@4.6.5";
 import "jsr:@std/dotenv/load";
 
-import { APIUser, APIInteraction } from "https://deno.land/x/discord_api_types/v10.ts";
 import {
-  ButtonStyleTypes,
-  InteractionResponseFlags,
-  InteractionResponseType,
+  APIInteraction,
   InteractionType,
-} from "discord-interactions";
+} from "https://deno.land/x/discord_api_types/v10.ts";
 import { verifyDiscordRequest } from "./middleware/discord.ts";
 
 const app = new Hono();
@@ -20,7 +17,7 @@ if (!PUBLIC_KEY) {
 
 app.use("/interactions/*", verifyDiscordRequest(PUBLIC_KEY));
 
-app.post("/interactions", async (c) => {
+app.post("/interactions", async (c: Context) => {
   const message = c.get("parsedBody") as APIInteraction;
   console.log("Interactions message:", message);
 
