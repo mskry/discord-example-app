@@ -4,25 +4,31 @@ import {
   APIApplicationCommand,
   ApplicationCommandOptionType,
   ApplicationCommandType,
+  InteractionContextType,
+  ApplicationIntegrationType,
 } from "https://deno.land/x/discord_api_types@0.37.101/v10.ts";
 
 // Define commands
-const TEST_COMMAND: APIApplicationCommand = {
+const TEST_COMMAND: Partial<APIApplicationCommand> = {
   name: "test",
   description: "Basic command",
   type: ApplicationCommandType.ChatInput,
   dm_permission: true,
-  default_member_permissions: "0",
+  default_member_permissions: null,
   nsfw: false,
+  integration_types: [ApplicationIntegrationType.GuildInstall],
+  contexts: [InteractionContextType.Guild, InteractionContextType.BotDm],
 };
 
-const ECHO_COMMAND: APIApplicationCommand = {
+const ECHO_COMMAND: Partial<APIApplicationCommand> = {
   name: "echo",
   description: "Repeats your message",
   type: ApplicationCommandType.ChatInput,
   dm_permission: true,
-  default_member_permissions: "0",
+  default_member_permissions: null,
   nsfw: false,
+  integration_types: [ApplicationIntegrationType.GuildInstall],
+  contexts: [InteractionContextType.Guild, InteractionContextType.BotDm],
   options: [
     {
       type: ApplicationCommandOptionType.String,
@@ -33,7 +39,7 @@ const ECHO_COMMAND: APIApplicationCommand = {
   ],
 };
 
-const ALL_COMMANDS: APIApplicationCommand[] = [
+const ALL_COMMANDS: Partial<APIApplicationCommand>[] = [
   TEST_COMMAND,
   ECHO_COMMAND,
 ];
