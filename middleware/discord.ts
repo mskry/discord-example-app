@@ -17,7 +17,7 @@ export const verifyDiscordRequest = (clientPublicKey: string) =>
       rawBody,
       signature,
       timestamp,
-      clientPublicKey
+      clientPublicKey,
     );
 
     if (!isValidRequest) {
