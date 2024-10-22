@@ -9,38 +9,29 @@ import type { Context, Next } from "hono";
  * @returns The middleware function
  */
 export const verifyDiscordRequest = (clientPublicKey: string) =>
-  createMiddleware(
-    async (c: Context, next: Next) => {
-      const signature = c.req.raw.headers.get("X-Signature-Ed25519");
-      const timestamp = c.req.raw.headers.get("X-Signature-Timestamp");
+  createMiddleware(async (c: Context, next: Next) => {
+    const signature = c.req.header("X-Signature-Ed25519");
+    const timestamp = c.req.header("X-Signature-Timestamp");
 
-      if (!signature || !timestamp) {
-        return c.text("Missing request signature", 401);
+    if (!signature || !timestamp) {
+      return c.text("Missing request signature", 401);
+    }
+
+    const rawBody = await c.req.raw.text();
+
+    try {
+      const isValidRequest = await verifyKey(rawBody, signature, timestamp, clientPublicKey);
+      if (!isValidRequest) {
+        return c.text("Bad request signature", 401);
       }
+    } catch (error) {
+      console.error("Error verifying request:", error);
+      return c.text("Error verifying request", 401);
+    }
 
-      const rawBody = await c.req.raw.text();
+    // Parse the body and attach it to the context
+    c.set("parsedBody", JSON.parse(rawBody));
 
-      try {
-        const isValidRequest = verifyKey(
-          rawBody,
-          signature,
-          timestamp,
-          clientPublicKey,
-        );
-        console.log("req validity :", isValidRequest);
-        if (!isValidRequest) {
-          return c.text("Invalid request signature", 401);
-        }
-      } catch (error) {
-        console.error("Error verifying request:", error);
-        return c.text("Error verifying request", 401);
-      }
-
-      // Parse the body and attach it to the context
-      c.set("parsedBody", JSON.parse(rawBody));
-      console.log(JSON.parse(rawBody));
-
-      // Ensure we call next() and return its result
-      return next();
-    },
-  );
+    // Ensure we call next() and return its result
+    return next();
+  });
