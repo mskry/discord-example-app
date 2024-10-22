@@ -1,8 +1,9 @@
+import "jsr:@std/dotenv/load";
 import { InstallGlobalCommands } from "./utils.ts";
-import { 
-  APIApplicationCommand, 
-  ApplicationCommandType, 
-  ApplicationCommandOptionType 
+import {
+  APIApplicationCommand,
+  ApplicationCommandOptionType,
+  ApplicationCommandType,
 } from "https://deno.land/x/discord_api_types@0.37.101/v10.ts";
 
 // Define commands
@@ -26,7 +27,6 @@ const ECHO_COMMAND: APIApplicationCommand = {
   ],
 };
 
-// Gather all commands
 const ALL_COMMANDS: APIApplicationCommand[] = [
   TEST_COMMAND,
   ECHO_COMMAND,
@@ -39,4 +39,4 @@ if (!APP_ID) {
   Deno.exit(1);
 }
 
-await InstallGlobalCommands(APP_ID, ALL_COMMANDS);
+await InstallGlobalCommands(APP_ID, ALL_COMMANDS as BodyInit);
