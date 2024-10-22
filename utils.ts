@@ -1,7 +1,7 @@
 import "@std/dotenv/load";
 import { APIApplicationCommand } from "https://deno.land/x/discord_api_types@0.37.101/v10.ts";
 
-type CommandsInput = APIApplicationCommand[] | BodyInit;
+type CommandsInput = Partial<APIApplicationCommand>[] | BodyInit;
 
 export async function DiscordRequest(
   endpoint: string,

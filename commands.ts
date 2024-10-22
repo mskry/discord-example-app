@@ -1,5 +1,5 @@
 import "jsr:@std/dotenv/load";
-import { InstallGlobalCommands } from "./utils.ts";
+import { InstallGlobalCommands, CommandsInput } from "./utils.ts";
 import {
   APIApplicationCommand,
   ApplicationCommandOptionType,
@@ -39,7 +39,7 @@ const ECHO_COMMAND: Partial<APIApplicationCommand> = {
   ],
 };
 
-const ALL_COMMANDS: Partial<APIApplicationCommand>[] = [
+const ALL_COMMANDS: CommandsInput = [
   TEST_COMMAND,
   ECHO_COMMAND,
 ];
