@@ -21,7 +21,7 @@ if (!PUBLIC_KEY) {
 app.use("/interactions/*", verifyDiscordRequest(PUBLIC_KEY));
 
 app.post("/interactions", async (c) => {
-  const message = c.get("parsedBody") as any;
+  const message = await c.req.json();
   console.log("Interactions message:", message);
 
   if (message.type === InteractionType.PING) {
