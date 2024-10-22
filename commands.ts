@@ -4,8 +4,8 @@ import {
   APIApplicationCommand,
   ApplicationCommandOptionType,
   ApplicationCommandType,
-  InteractionContextType,
   ApplicationIntegrationType,
+  InteractionContextType,
 } from "https://deno.land/x/discord_api_types@0.37.101/v10.ts";
 
 // Define commands
@@ -17,7 +17,7 @@ const TEST_COMMAND: Partial<APIApplicationCommand> = {
   default_member_permissions: null,
   nsfw: false,
   integration_types: [ApplicationIntegrationType.GuildInstall],
-  contexts: [InteractionContextType.Guild, InteractionContextType.BotDm],
+  contexts: [InteractionContextType.Guild, InteractionContextType.BotDM],
 };
 
 const ECHO_COMMAND: Partial<APIApplicationCommand> = {
@@ -28,7 +28,7 @@ const ECHO_COMMAND: Partial<APIApplicationCommand> = {
   default_member_permissions: null,
   nsfw: false,
   integration_types: [ApplicationIntegrationType.GuildInstall],
-  contexts: [InteractionContextType.Guild, InteractionContextType.BotDm],
+  contexts: [InteractionContextType.Guild, InteractionContextType.BotDM],
   options: [
     {
       type: ApplicationCommandOptionType.String,
