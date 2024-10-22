@@ -38,6 +38,7 @@ export const verifyDiscordRequest = createMiddleware(
     // Parse the body and attach it to the context
     c.set('parsedBody', JSON.parse(rawBody));
 
-    await next();
+    // Ensure we call next() and return its result
+    return next();
   },
 );

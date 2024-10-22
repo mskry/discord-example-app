@@ -26,6 +26,10 @@ app.post("/interactions", async (c) => {
       },
     });
   }
+  // Add a default response for other interaction types
+  return c.json({
+    type: InteractionResponseType.PONG,
+  });
 });
 
 Deno.serve(app.fetch);
