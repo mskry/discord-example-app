@@ -5,16 +5,14 @@ import type { Context, Next } from "hono";
 
 export const verifyDiscordRequest = createMiddleware(
   async (c: Context, next: Next) => {
-    await next();
-    console.log(c);
-    const signature = c.req.header("X-Signature-Ed25519");
-    const timestamp = c.req.header("X-Signature-Timestamp");
+    const signature = c.req.raw.headers.get("X-Signature-Ed25519");
+    const timestamp = c.req.raw.headers.get("X-Signature-Timestamp");
 
     if (!signature || !timestamp) {
       return c.text("Missing request signature", 401);
     }
 
-    const rawBody = await c.req.text();
+    const rawBody = await c.req.raw.text();
 
     const publicKey = Deno.env.get("PUBLIC_KEY");
     if (!publicKey) {
