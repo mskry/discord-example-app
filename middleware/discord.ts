@@ -1,9 +1,14 @@
-import "jsr:@std/dotenv/load";
 import { createMiddleware } from "hono/factory";
 import { verifyKey } from "discord-interactions";
 import type { Context, Next } from "hono";
 
-export const verifyDiscordRequest = createMiddleware(
+/**
+ * Creates a middleware function for verifying Discord requests.
+ *
+ * @param clientPublicKey - The public key from the Discord developer dashboard
+ * @returns The middleware function
+ */
+export const verifyDiscordRequest = (clientPublicKey: string) => createMiddleware(
   async (c: Context, next: Next) => {
     const signature = c.req.raw.headers.get("X-Signature-Ed25519");
     const timestamp = c.req.raw.headers.get("X-Signature-Timestamp");
@@ -14,18 +19,12 @@ export const verifyDiscordRequest = createMiddleware(
 
     const rawBody = await c.req.raw.text();
 
-    const publicKey = Deno.env.get("PUBLIC_KEY");
-    if (!publicKey) {
-      console.error("Missing PUBLIC_KEY environment variable");
-      return c.text("Internal server error", 500);
-    }
-
     try {
       const isValidRequest = verifyKey(
         rawBody,
         signature,
         timestamp,
-        publicKey,
+        clientPublicKey,
       );
       if (!isValidRequest) {
         return c.text("Invalid request signature", 401);
