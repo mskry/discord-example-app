@@ -15,7 +15,7 @@ export async function DiscordRequest(
   }
 
   const url = DISCORD_API_URL + endpoint;
-  if (options.body && typeof options.body !== 'string') {
+  if (options.body && typeof options.body !== "string") {
     options.body = JSON.stringify(options.body);
   }
 

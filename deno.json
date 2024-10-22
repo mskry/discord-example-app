@@ -1,0 +1,15 @@
+{
+  "imports": {
+    "@std/dotenv": "jsr:@std/dotenv@^0.225.2",
+    "@std/http": "jsr:@std/http@^1.0.8",
+    "discord-interactions": "npm:discord-interactions@^4.1.0",
+    "hono": "jsr:@hono/hono@^4.6.3"
+  },
+  "tasks": {
+    "start": "deno run --env --allow-net main.ts"
+  },
+  "compilerOptions": {
+    "jsx": "precompile",
+    "jsxImportSource": "hono/jsx"
+  }
+}
