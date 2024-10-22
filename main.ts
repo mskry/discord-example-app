@@ -14,7 +14,14 @@ import {
 import { verifyDiscordRequest } from "./middleware/discord.ts";
 
 const app = new Hono();
-app.post("/interactions/*", verifyDiscordRequest());
+const PUBLIC_KEY = Deno.env.get("PUBLIC_KEY");
+
+if (!PUBLIC_KEY) {
+  console.error("Missing PUBLIC_KEY environment variable");
+  Deno.exit(1);
+}
+
+app.post("/interactions/*", verifyDiscordRequest(PUBLIC_KEY));
 
 app.post("/interactions", async (c) => {
   console.log(c);
