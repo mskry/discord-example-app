@@ -8,8 +8,6 @@ import {
   InteractionResponseFlags,
   InteractionResponseType,
   InteractionType,
-  MessageComponentTypes,
-  verifyKey,
 } from "discord-interactions";
 import { verifyDiscordRequest } from "./middleware/discord.ts";
 
@@ -21,13 +19,12 @@ if (!PUBLIC_KEY) {
   Deno.exit(1);
 }
 
-app.post("/interactions/*", verifyDiscordRequest(PUBLIC_KEY));
+app.post("/interactions", verifyDiscordRequest(PUBLIC_KEY));
 
 app.post("/interactions", async (c) => {
-  console.log(c);
   const message = await c.req.json();
 
-  console.log(message);
+  console.log("adfa", message);
 
   if (message.type === InteractionType.PING) {
     return c.json({ type: InteractionResponseType.PONG });
