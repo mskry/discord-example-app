@@ -15,7 +15,9 @@ export async function DiscordRequest(
   }
 
   const url = DISCORD_API_URL + endpoint;
-  if (options.body) options.body = JSON.stringify(options.body);
+  if (options.body && typeof options.body !== 'string') {
+    options.body = JSON.stringify(options.body);
+  }
 
   const res = await fetch(url, {
     headers: {
@@ -45,7 +47,7 @@ export async function InstallGlobalCommands(
   try {
     await DiscordRequest(endpoint, {
       method: "PUT",
-      body: commands,
+      body: JSON.stringify(commands),
     });
     console.log("Successfully installed global commands");
   } catch (err) {
