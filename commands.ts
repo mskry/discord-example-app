@@ -39,4 +39,4 @@ if (!APP_ID) {
   Deno.exit(1);
 }
 
-await InstallGlobalCommands(APP_ID, ALL_COMMANDS as BodyInit);
+await InstallGlobalCommands(APP_ID, ALL_COMMANDS);
