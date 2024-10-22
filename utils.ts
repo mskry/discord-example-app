@@ -1,9 +1,14 @@
 import { APIApplicationCommand } from "https://deno.land/x/discord_api_types@0.37.101/v10.ts";
+import { RequestInit } from "https://deno.land/std@0.192.0/http/mod.ts";
 import "@std/dotenv/load";
+
+interface DiscordRequestOptions extends Omit<RequestInit, 'body'> {
+  body?: RequestInit['body'] | APIApplicationCommand[];
+}
 
 export async function DiscordRequest(
   endpoint: string,
-  options: RequestInit,
+  options: DiscordRequestOptions,
 ): Promise<Response> {
   const DISCORD_API_URL = Deno.env.get("DISCORD_API_URL");
   const DISCORD_TOKEN = Deno.env.get("DISCORD_TOKEN");
@@ -15,7 +20,13 @@ export async function DiscordRequest(
   }
 
   const url = DISCORD_API_URL + endpoint;
-  if (options.body) options.body = JSON.stringify(options.body);
+  const requestOptions: RequestInit = { ...options };
+
+  if (options.body && Array.isArray(options.body)) {
+    requestOptions.body = JSON.stringify(options.body);
+  } else if (options.body && typeof options.body === 'object') {
+    requestOptions.body = JSON.stringify(options.body);
+  }
 
   const res = await fetch(url, {
     headers: {
@@ -24,7 +35,7 @@ export async function DiscordRequest(
       "User-Agent":
         "DiscordBot (https://github.com/discord/discord-example-app, 1.0.0)",
     },
-    ...options,
+    ...requestOptions,
   });
 
   if (!res.ok) {
