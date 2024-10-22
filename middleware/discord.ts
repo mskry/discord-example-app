@@ -24,5 +24,6 @@ export const verifyDiscordRequest = (clientPublicKey: string) =>
       return c.text("Bad request signature", 401);
     }
 
-    await next();
+    c.set("parsedBody", JSON.parse(rawBody));
+    return next();
   });
