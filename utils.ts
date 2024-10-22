@@ -1,5 +1,5 @@
 import "@std/dotenv/load";
-import { APIApplicationCommand } from "https://deno.land/x/discord_api_types@0.37.101/v10.ts";
+import applicationcommand
 
 export async function DiscordRequest(
   endpoint: string,
@@ -38,7 +38,7 @@ export async function DiscordRequest(
 
 export async function InstallGlobalCommands(
   appId: string,
-  commands: APIApplicationCommand[],
+  commands: BodyInit,
 ): Promise<void> {
   const endpoint = `applications/${appId}/commands`;
 
