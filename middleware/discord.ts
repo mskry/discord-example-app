@@ -13,19 +13,15 @@ export const verifyDiscordRequest = (clientPublicKey: string) =>
 
     const rawBody = await c.req.raw.text();
 
-    try {
-      const isValidRequest = await verifyKey(
-        rawBody,
-        signature,
-        timestamp,
-        clientPublicKey,
-      );
-      if (!isValidRequest) {
-        return c.text("Bad request signature", 401);
-      }
-    } catch (error) {
-      console.error("Error verifying request:", error);
-      return c.text("Error verifying request", 401);
+    const isValidRequest = await verifyKey(
+      rawBody,
+      signature,
+      timestamp,
+      clientPublicKey
+    );
+
+    if (!isValidRequest) {
+      return c.text("Bad request signature", 401);
     }
 
     c.set("parsedBody", JSON.parse(rawBody));
