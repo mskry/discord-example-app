@@ -14,10 +14,14 @@ import {
 import { verifyDiscordRequest } from "./middleware/discord.ts";
 
 const app = new Hono();
-app.post("/interactions/*", verifyDiscordRequest);
+//app.post("/interactions/*", verifyDiscordRequest);
 
 app.post("/interactions", async (c) => {
-  const message = c.get('parsedBody');
+  console.log(c);
+  const message = await c.req.json();
+
+  console.log(message);
+
   if (message.type === InteractionType.APPLICATION_COMMAND) {
     return c.json({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -26,10 +30,6 @@ app.post("/interactions", async (c) => {
       },
     });
   }
-  // Add a default response for other interaction types
-  return c.json({
-    type: InteractionResponseType.PONG,
-  });
 });
 
 Deno.serve(app.fetch);
