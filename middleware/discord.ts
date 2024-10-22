@@ -35,6 +35,9 @@ export const verifyDiscordRequest = createMiddleware(
       return c.text("Error verifying request", 401);
     }
 
+    // Parse the body and attach it to the context
+    c.set('parsedBody', JSON.parse(rawBody));
+
     await next();
   },
 );

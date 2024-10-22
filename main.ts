@@ -17,7 +17,7 @@ const app = new Hono();
 app.post("/interactions/*", verifyDiscordRequest);
 
 app.post("/interactions", async (c) => {
-  const message = await c.req.json();
+  const message = c.get('parsedBody');
   if (message.type === InteractionType.APPLICATION_COMMAND) {
     return c.json({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
