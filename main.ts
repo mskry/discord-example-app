@@ -19,12 +19,10 @@ if (!PUBLIC_KEY) {
   Deno.exit(1);
 }
 
-app.post("/interactions", verifyDiscordRequest(PUBLIC_KEY));
+app.use("/interactions/*", verifyDiscordRequest(PUBLIC_KEY));
 
 app.post("/interactions", async (c) => {
-  const message = await c.req.json();
-
-  console.log("adfa", message);
+  const message = c.get("parsedBody");
 
   if (message.type === InteractionType.PING) {
     return c.json({ type: InteractionResponseType.PONG });

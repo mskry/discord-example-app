@@ -20,14 +20,8 @@ export const verifyDiscordRequest = (clientPublicKey: string) =>
     const rawBody = await c.req.raw.text();
 
     try {
-      const isValidRequest = await verifyKey(
-        rawBody,
-        signature,
-        timestamp,
-        clientPublicKey,
-      );
+      const isValidRequest = await verifyKey(rawBody, signature, timestamp, clientPublicKey);
 
-      console.log("request validity", isValidRequest);
       if (!isValidRequest) {
         return c.text("Bad request signature", 401);
       }
