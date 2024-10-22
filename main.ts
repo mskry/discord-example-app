@@ -14,7 +14,7 @@ import {
 import { verifyDiscordRequest } from "./middleware/discord.ts";
 
 const app = new Hono();
-//app.post("/interactions/*", verifyDiscordRequest);
+app.post("/interactions/*", verifyDiscordRequest());
 
 app.post("/interactions", async (c) => {
   console.log(c);
