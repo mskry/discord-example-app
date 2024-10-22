@@ -14,7 +14,13 @@ export async function DiscordRequest(
   }
 
   const url = DISCORD_API_URL + endpoint;
-  if (options.body) options.body = JSON.stringify(options.body);
+  if (options.body) {
+    if (Array.isArray(options.body) && options.body.every(cmd => typeof cmd === 'object')) {
+      options.body = JSON.stringify(options.body);
+    } else if (typeof options.body === 'object') {
+      options.body = JSON.stringify(options.body);
+    }
+  }
 
   const res = await fetch(url, {
     headers: {
