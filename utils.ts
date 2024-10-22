@@ -1,5 +1,6 @@
 import "@std/dotenv/load";
-import { APIApplicationCommand } from "https://deno.land/x/discord_api_types@0.37.101/v10.ts";
+import applicationcommand
+import type { APIApplicationCommandOption } from "https://deno.land/x/discord_api_types@0.37.101/payloads/v10/mod.ts";
 
 export async function DiscordRequest(
   endpoint: string,
@@ -38,13 +39,12 @@ export async function DiscordRequest(
 
 export async function InstallGlobalCommands(
   appId: string,
-  commands: APIApplicationCommand[] | BodyInit,
+  commands: BodyInit | APIApplicationCommandOption[],
 ): Promise<void> {
   const endpoint = `applications/${appId}/commands`;
 
   try {
-    const body = Array.isArray(commands) ? JSON.stringify(commands) : commands;
-    await DiscordRequest(endpoint, { method: "PUT", body });
+    await DiscordRequest(endpoint, { method: "PUT", body: commands });
     console.log("Successfully installed global commands");
   } catch (err) {
     console.error("Error installing global commands:", err);
