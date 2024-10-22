@@ -6,8 +6,9 @@
     "hono": "jsr:@hono/hono@^4.6.3"
   },
   "tasks": {
-    "start": "deno run --env --allow-net main.ts"
-    "dev": "deno run --watch=. --allow-net --allow-read --allow-env main.ts"
+    "start": "deno run --env --allow-net main.ts",
+    "dev": "deno run --watch=. --allow-net --allow-read --allow-env main.ts",
+    "dev:check": "deno run --watch=. --check --allow-net --allow-read --allow-env main.ts"
   },
   "compilerOptions": {
     "jsx": "precompile",
