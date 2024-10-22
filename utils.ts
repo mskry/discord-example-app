@@ -1,14 +1,9 @@
 import { APIApplicationCommand } from "https://deno.land/x/discord_api_types@0.37.101/v10.ts";
-import { RequestInit } from "https://deno.land/std@0.192.0/http/mod.ts";
 import "@std/dotenv/load";
-
-interface DiscordRequestOptions extends Omit<RequestInit, 'body'> {
-  body?: RequestInit['body'] | unknown;
-}
 
 export async function DiscordRequest(
   endpoint: string,
-  options: DiscordRequestOptions,
+  options: RequestInit,
 ): Promise<Response> {
   const DISCORD_API_URL = Deno.env.get("DISCORD_API_URL");
   const DISCORD_TOKEN = Deno.env.get("DISCORD_TOKEN");
