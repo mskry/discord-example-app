@@ -22,6 +22,10 @@ app.post("/interactions", async (c) => {
 
   console.log(message);
 
+  if (message.type === InteractionType.PING) {
+    return c.json({ type: InteractionResponseType.PONG });
+  }
+
   if (message.type === InteractionType.APPLICATION_COMMAND) {
     return c.json({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
