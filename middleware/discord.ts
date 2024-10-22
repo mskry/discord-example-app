@@ -25,5 +25,5 @@ export const verifyDiscordRequest = (clientPublicKey: string) =>
     }
 
     c.set("parsedBody", JSON.parse(rawBody));
-    return next();
+    await next();
   });
