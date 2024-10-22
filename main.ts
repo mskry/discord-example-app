@@ -1,7 +1,7 @@
 import { Hono } from "jsr:@hono/hono@4.6.5";
 import "jsr:@std/dotenv/load";
 
-import { APIUser } from "https://deno.land/x/discord_api_types/v10.ts";
+import { APIUser, APIInteraction } from "https://deno.land/x/discord_api_types/v10.ts";
 import {
   ButtonStyleTypes,
   InteractionResponseFlags,
@@ -21,7 +21,7 @@ if (!PUBLIC_KEY) {
 app.use("/interactions/*", verifyDiscordRequest(PUBLIC_KEY));
 
 app.post("/interactions", async (c) => {
-  const message = c.get("parsedBody") as any;
+  const message = c.get("parsedBody") as APIInteraction;
   console.log("Interactions message:", message);
 
   if (message.type === InteractionType.PING) {

@@ -1,6 +1,7 @@
 import { createMiddleware } from "hono/factory";
 import { verifyKey } from "discord-interactions";
 import type { Context, Next } from "hono";
+import { APIInteraction } from "https://deno.land/x/discord_api_types/v10.ts";
 
 export const verifyDiscordRequest = (clientPublicKey: string) =>
   createMiddleware(async (c: Context, next: Next) => {
@@ -25,6 +26,6 @@ export const verifyDiscordRequest = (clientPublicKey: string) =>
     }
 
     // Parse the JSON body and set it in the context
-    c.set("parsedBody", JSON.parse(rawBody));
+    c.set("parsedBody", JSON.parse(rawBody) as APIInteraction);
     await next();
   });
