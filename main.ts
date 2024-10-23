@@ -17,13 +17,20 @@ if (!PUBLIC_KEY) {
 app.use("/interactions/*", verifyDiscordRequest(PUBLIC_KEY));
 
 app.post("/interactions", (c: Context) => {
-  const message = c.get("parsedBody");
-
-  if (message.type === InteractionType.Ping) {
+  const { type, data } = c.get("parsedBody");
+  if (type === InteractionType.Ping) {
     return c.json({ type: InteractionResponseType.Pong });
   }
 
-  if (message.type === InteractionType.ApplicationCommand) {
+  if (type === InteractionType.ApplicationCommand) {
+    if (data.name === "echo") {
+      return c.json({
+        type: InteractionResponseType.ChannelMessageWithSource,
+        data: {
+          content: "Echo!",
+        },
+      });
+    }
     return c.json({
       type: InteractionResponseType.ChannelMessageWithSource,
       data: {
